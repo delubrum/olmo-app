@@ -15,43 +15,22 @@ class GrnteController{
     ini_set("session.cookie_lifetime","28800");
     ini_set("session.gc_maxlifetime","28800");
     session_start();
-    $id = $_SESSION["id-PQB"];
-    $alm = $this->model->Obtener($id);
+    $id = $_SESSION["id-OLMO"];
+    $alm = $this->model->GetUser($id);
     require_once 'views/header.php';
     require_once 'views/page.php';
     require_once 'views/footer.php';
   }
 
-  public function Credit(){
+  public function Sales(){
     ini_set("session.cookie_lifetime","28800");
     ini_set("session.gc_maxlifetime","28800");
     session_start();
-    $id = $_SESSION["id-PQB"];
-    $alm = $this->model->Obtener($id);
+    $id = $_SESSION["id-OLMO"];
+    $alm = $this->model->GetUser($id);
+    $url = $_REQUEST['a'];
     require_once 'views/header.php';
-    require_once 'views/credit.php';
-    require_once 'views/footer.php';
-  }
-
-  public function Approve(){
-    ini_set("session.cookie_lifetime","28800");
-    ini_set("session.gc_maxlifetime","28800");
-    session_start();
-    $id = $_SESSION["id-PQB"];
-    $alm = $this->model->Obtener($id);
-    require_once 'views/header.php';
-    require_once 'views/approve.php';
-    require_once 'views/footer.php';
-  }
-
-  public function Report(){
-    ini_set("session.cookie_lifetime","28800");
-    ini_set("session.gc_maxlifetime","28800");
-    session_start();
-    $id = $_SESSION["id-PQB"];
-    $alm = $this->model->Obtener($id);
-    require_once 'views/header.php';
-    require_once 'views/report.php';
+    require_once 'views/sales/index.php';
     require_once 'views/footer.php';
   }
 

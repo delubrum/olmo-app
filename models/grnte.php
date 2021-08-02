@@ -12,9 +12,9 @@ die($e->getMessage());
 }
 }
 
-public function Obtener($id) {
+public function GetUser($id) {
 try {
-$stm = $this->pdo->prepare("SELECT * FROM Q_users WHERE ID = ?");
+$stm = $this->pdo->prepare("SELECT * FROM users WHERE user_id = ?");
 $stm->execute(array($id));
 return $stm->fetch(PDO::FETCH_OBJ);
 }
