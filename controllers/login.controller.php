@@ -16,7 +16,7 @@ class LoginController{
     if(isset($_SESSION["id-OLMO"])){
       header('Location: ?c=Grnte&a=Index');
     } else {
-      require_once 'views/login/login.php';
+      require_once 'views/login.php';
     }
   }
 
@@ -52,10 +52,10 @@ class LoginController{
       if ($this->model->Login($user,$password)) {
         header('Location: ?c=Grnte&a=Index');
       } else {
-        return 'error';
+        echo 'error';
       }
     } else {
-      return 'error';
+      echo 'error';
     }
   }
 

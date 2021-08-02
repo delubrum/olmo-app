@@ -19,7 +19,6 @@ class GrnteController{
     $alm = $this->model->GetUser($id);
     require_once 'views/header.php';
     require_once 'views/page.php';
-    require_once 'views/footer.php';
   }
 
   public function Sales(){
@@ -31,35 +30,45 @@ class GrnteController{
     $url = $_REQUEST['a'];
     require_once 'views/header.php';
     require_once 'views/sales/index.php';
-    require_once 'views/footer.php';
+    require_once 'views/sales/new.php';
+  }
+  
+  public function Products(){
+    ini_set("session.cookie_lifetime","28800");
+    ini_set("session.gc_maxlifetime","28800");
+    session_start();
+    $id = $_SESSION["id-OLMO"];
+    $alm = $this->model->GetUser($id);
+    $url = $_REQUEST['a'];
+    require_once 'views/header.php';
+    require_once 'views/products/index.php';
+    require_once 'views/products/new.php';
   }
 
-   public function Save_Credit(){
+  public function ProductSave(){
+    $description=$_REQUEST['description'];
+    $price=preg_replace('/[^0-9]+/', '', $_REQUEST['price']);
+    $this->model->ProductSave($description,$price);
+    echo "<script type='text/javascript'>
+    window.location='?c=Grnte&a=Products'
+    </script>";
+  }
+
+  public function ProductActive(){
+    $id=$_REQUEST['id'];
+    $val=$_REQUEST['val'];
+    $this->model->ProductActive($val,$id);
+  }
+
+  
+  
+   public function SaleSave(){
      session_start();
      $user = $_SESSION["id-PQB"];
-     $city=$_REQUEST['city'];
-     $phone=$_REQUEST['phone'];
-     $date=$_REQUEST['date'];
-     $amount=$_REQUEST['amount'];
+     $price=$_REQUEST['amount'];
      $commission=$_REQUEST['commission'];
      $obs=$_REQUEST['obs'];
      $this->model->Save_Credit($user,$date,$city,$phone,$amount,$commission,$obs);
-     $credit=$this->model->CreditID()->id;
-     $carpeta = "files/$credit";
-     if (!file_exists($carpeta)) {
-       mkdir($carpeta, 0777, true);
-     }
-     $total = count($_FILES['upload']['name']);
-     for($i=0; $i<$total; $i++) {
-       $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
-       if ($tmpFilePath != ""){
-         $newFilePath = "files/$credit/" . $_FILES['upload']['name'][$i];
-         if(move_uploaded_file($tmpFilePath, $newFilePath)) {}
-         }
-       }
-       echo "<script type='text/javascript'>
-       window.history.go(-1);
-       </script>";
   }
 
   public function Save_Approve_All(){

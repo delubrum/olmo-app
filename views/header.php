@@ -23,11 +23,9 @@
     <script src="assets/js/adminlte.min.js"></script>
     <!-- overlayScrollbars -->
     <script src="assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- Search -->
-    <script src="assets/js/search.js"></script>
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse text-sm layout-fixed" onclick="SearchOut()">
+<body class="hold-transition sidebar-mini sidebar-collapse text-sm layout-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -39,18 +37,11 @@
                 </li>
             </ul>
 
-            <!-- SEARCH FORM -->
-            <form class="form-inline ml-3" style="margin-top:13px">
-                <input class="form-control form-control-sm" type="search" placeholder="Buscar..." autocomplete="off"
-                    aria-label="Search" id="search" onkeyup="showResult(this.value)">
-            </form>
-            <div id="livesearch"></div>
-
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto text-white text-capitalize">
 
-                <?php echo $alm->name ?></a>
+                <h5><?php echo $alm->name ?></h5>
 
                 <li class="nav-item">
                     <a class="nav-link" href="?c=Login&a=Logout"><i title="Cerrar Sesión"
@@ -87,7 +78,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="?c=Grnte&a=Approve" class="nav-link">
+                            <a href="?c=Grnte&a=Products" class="nav-link <?php $url == 'Products' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-inbox"></i>
                                 <p>
                                     Productos
