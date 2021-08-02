@@ -5,9 +5,9 @@
 
 <!-- Modal -->
 <div class="modal fade" id="new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-            <form method="post" action="?c=Grnte&a=ProductSave">
+            <form method="post" action="?c=Init&a=ProductSave">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
@@ -17,8 +17,25 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>* Categoría</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="nav-icon fas fa-archive"></i></span>
+                                    </div>
+                                    <select class="form-control" name="category_id" required>
+                                        <option value=''></option>
+                                        <?php foreach($this->model->ProductsCategoriesList() as $r) { ?>
+                                        <option value='<?php echo $r->category_id ?>'><?php echo $r->name ?>
+                                        </option>
+                                        <?php } ?>
 
-                        <div class="col-sm-6">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>* Descripción</label>
                                 <div class="input-group">
@@ -29,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>* Precio</label>
                                 <div class="input-group">

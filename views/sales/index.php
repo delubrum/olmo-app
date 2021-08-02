@@ -31,7 +31,7 @@
                         <th>Producto</th>
                         <th>Precio</th>
 
-                        <?php if ($alm->user_id <=2) { ?>
+                        <?php if ($alm->id <=2) { ?>
                         <th>Usuario</th>
                         <?php } ?>
                     </tr>
@@ -43,7 +43,7 @@
                         <td>System Architect</td>
                         <td>Edinburgh</td>
 
-                        <?php if ($alm->user_id <=2) { ?>
+                        <?php if ($alm->id <=2) { ?>
                         <td>Usuario</td>
                         <?php } ?>
                     </tr>

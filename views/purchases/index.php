@@ -9,9 +9,9 @@
         <div class="row mb-2">
             <div class="col-sm-12">
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#new">
-                    Nuevo
+                    Nueva
                 </button>
-                <h1 class="m-0 text-dark">Productos</h1>
+                <h1 class="m-0 text-dark">Compras</h1>
             </div>
         </div>
     </div>
@@ -26,24 +26,19 @@
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Producto</th>
                         <th>Precio</th>
-                        <th></th>
+                        <th>Observaciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($this->model->ProductsList() as $r) { ?>
+                    <?php foreach($this->model->PurchasesList() as $r) { ?>
                     <tr>
+                        <td><?php echo $r->created_at ?></td>
                         <td><?php echo $r->description ?></td>
                         <td>$ <?php echo number_format($r->price) ?></td>
-                        <td>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input active"
-                                    id="switch<?php echo $r->product_id ?>" data-id="<?php echo $r->product_id ?>"
-                                    <?php echo ($r->active == 1) ? 'checked' : '' ?>>
-                                <label class="custom-control-label" for="switch<?php echo $r->product_id ?>"></label>
-                            </div>
-                        </td>
+                        <td><?php echo $r->obs ?></td>
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -78,7 +73,7 @@ $('.active').change(function() {
     } else {
         val = 1
     }
-    $.post("?c=Grnte&a=ProductActive", {
+    $.post("?c=Init&a=ProductActive", {
         id: id,
         val: val
     });

@@ -26,24 +26,29 @@
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Descripción</th>
                         <th>Precio</th>
-                        <th></th>
+                        <th>Categoria</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($this->model->ProductsList() as $r) { ?>
                     <tr>
-                        <td><?php echo $r->description ?></td>
-                        <td>$ <?php echo number_format($r->price) ?></td>
                         <td>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input active"
-                                    id="switch<?php echo $r->product_id ?>" data-id="<?php echo $r->product_id ?>"
+                                    id="switch<?php echo $r->id ?>" data-id="<?php echo $r->id ?>"
                                     <?php echo ($r->active == 1) ? 'checked' : '' ?>>
-                                <label class="custom-control-label" for="switch<?php echo $r->product_id ?>"></label>
+                                <label class="custom-control-label" for="switch<?php echo $r->id ?>"></label>
                             </div>
                         </td>
+                        <td><?php echo $r->description ?></td>
+                        <td>$ <?php echo number_format($r->price) ?></td>
+                        <td><?php echo $r->name ?></td>
+
+
                     </tr>
                     <?php } ?>
                 </tbody>
@@ -64,6 +69,7 @@
 <script>
 $(document).ready(function() {
     $('table').DataTable({
+        "order": [],
         "scrollX": true,
         "lengthChange": false,
         "paginate": false
@@ -78,7 +84,7 @@ $('.active').change(function() {
     } else {
         val = 1
     }
-    $.post("?c=Grnte&a=ProductActive", {
+    $.post("?c=Init&a=ProductActive", {
         id: id,
         val: val
     });

@@ -15,13 +15,13 @@ class Login {
 
   public function Login($user,$password) {
     try {
-      $stm = $this->pdo->prepare("SELECT user_id,password FROM users WHERE email = ? and active = 1");
+      $stm = $this->pdo->prepare("SELECT id,password FROM users WHERE email = ? and active = 1");
       $stm->execute(array($user));
       $r = $stm->fetch(PDO::FETCH_OBJ);
       if ($stm->rowCount() > 0) {
         if (password_verify($password, $r->password)) {
           session_start();
-          $_SESSION["id-OLMO"] = $r->user_id;
+          $_SESSION["id-OLMO"] = $r->id;
           session_write_close();
           return true;
           return $stm->fetch(PDO::FETCH_OBJ);

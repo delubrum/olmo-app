@@ -14,7 +14,7 @@ class LoginController{
     ob_start();
     session_start();
     if(isset($_SESSION["id-OLMO"])){
-      header('Location: ?c=Grnte&a=Index');
+      header('Location: ?c=Init&a=Index');
     } else {
       require_once 'views/login.php';
     }
@@ -50,7 +50,7 @@ class LoginController{
       $password=strip_tags($_REQUEST['pass']);
       $user=strip_tags($_REQUEST['user']);
       if ($this->model->Login($user,$password)) {
-        header('Location: ?c=Grnte&a=Index');
+        header('Location: ?c=Init&a=Index');
       } else {
         echo 'error';
       }

@@ -1,3 +1,7 @@
+<?php
+if ($id <> "" and $id == $alm->id){
+?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,7 +59,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="?c=Grnte&a=Index" class="brand-link">
+            <a href="?c=Init&a=Index" class="brand-link">
                 <img src="assets/img/logo.jpg" style="width:30px" class="brand-image img-circle elevation-3">
                 <span class="brand-text font-weight-light pl-3">Olmo | Complementos</span>
             </a>
@@ -70,7 +74,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="?c=Grnte&a=Sales" class="nav-link <?php $url == 'Sales' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Sales" class="nav-link <?php $url == 'Sales' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>
                                     Ventas
@@ -78,7 +82,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="?c=Grnte&a=Products" class="nav-link <?php $url == 'Products' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Products" class="nav-link <?php $url == 'Products' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-inbox"></i>
                                 <p>
                                     Productos
@@ -86,7 +90,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="?c=Grnte&a=Approve" class="nav-link">
+                            <a href="?c=Init&a=Purchases" class="nav-link <?php $url == 'Purchases' ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cart-plus"></i>
                                 <p>
                                     Compras
@@ -102,3 +106,13 @@
         <!-- Content Wrapper. Contains page content -->
 
         <div class="content-wrapper">
+
+            <?php
+}
+else {
+echo'<script type="text/javascript">
+alert("Registrarse para ver éste contenido");
+window.location="?c=Login&a=Index"
+</script>';
+}
+?>

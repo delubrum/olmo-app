@@ -1,13 +1,16 @@
 <header>
     <script src="assets/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+    <script src="assets/plugins/select2/js/select2.full.min.js"></script>
+
 </header>
 
 
 <!-- Modal -->
 <div class="modal fade" id="new" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-            <form method="post" action="?c=Grnte&a=ProductSave">
+            <form method="post" action="?c=Init&a=PurchaseSave">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
@@ -17,19 +20,44 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>* Producto</label>
+                                <div class="input-group">
+                                    <select class="form-control select2" style="width:100%" name="product_id" required>
+                                        <option value=''></option>
+                                        <?php foreach($this->model->ProductsList() as $r) { ?>
+                                        <option value='<?php echo $r->id ?>'><?php echo $r->description ?>
+                                        </option>
+                                        <?php } ?>
 
-                        <div class="col-sm-6">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>* Descripción</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="nav-icon fas fa-archive"></i></span>
                                     </div>
-                                    <input class="form-control" name="description" required>
+                                    <input class="form-control" name="obs" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>* Cantidad</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="nav-icon fas fa-hashtag"></i></span>
+                                    </div>
+                                    <input type="number" name="qty" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label>* Precio</label>
                                 <div class="input-group">
@@ -60,5 +88,6 @@
 <script>
 $(document).ready(function() {
     $(":input").inputmask();
+    $('.select2').select2()
 });
 </script>
