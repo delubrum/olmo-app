@@ -143,4 +143,15 @@ class InitController{
     $this->model->SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id);
   }
 
+  public function Inventory(){
+    ini_set("session.cookie_lifetime","28800");
+    ini_set("session.gc_maxlifetime","28800");
+    session_start();
+    $id = $_SESSION["id-OLMO"];
+    $alm = $this->model->UserGet($id);
+    $url = $_REQUEST['a'];
+    require_once 'views/header.php';
+    require_once 'views/inventory/index.php';
+  }
+
 }

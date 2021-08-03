@@ -99,6 +99,14 @@ if ($id <> "" and $id == $alm->id){
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="?c=Init&a=Inventory" class="nav-link <?php $url == 'Inventory' ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>
+                                    Inventario
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

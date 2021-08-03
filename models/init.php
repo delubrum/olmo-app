@@ -231,4 +231,20 @@ class Init {
         }
     }
 
+    public function InventoryList() {
+        try {
+            $stm = $this->pdo->prepare("SELECT *
+            FROM inventory a
+            LEFT JOIN products b
+            ON a.product_id = b.id
+            ORDER BY b.description ASC
+            ");
+            $stm->execute(array());
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
 }
