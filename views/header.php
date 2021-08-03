@@ -27,6 +27,8 @@ if ($id <> "" and $id == $alm->id){
     <script src="assets/js/adminlte.min.js"></script>
     <!-- overlayScrollbars -->
     <script src="assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse text-sm layout-fixed">

@@ -59,23 +59,11 @@
 <script>
 $(document).ready(function() {
     $('table').DataTable({
+        "order": [],
         "scrollX": true,
         "lengthChange": false,
         "paginate": false
 
-    });
-});
-
-$('.active').change(function() {
-    id = $(this).data("id");
-    if (!this.checked) {
-        val = 0
-    } else {
-        val = 1
-    }
-    $.post("?c=Init&a=ProductActive", {
-        id: id,
-        val: val
     });
 });
 </script>

@@ -11,7 +11,7 @@
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#new">
                     Nueva
                 </button>
-                <h1 class="m-0 text-dark">Ventas</h1>
+                <h1 class="m-0 text-dark">Compras</h1>
             </div>
         </div>
     </div>
@@ -28,25 +28,25 @@
                     <tr>
                         <th>Id</th>
                         <th>Fecha</th>
-                        <th>Producto</th>
                         <th>Precio</th>
-
-                        <?php if ($alm->id <=2) { ?>
+                        <th>Observaciones</th>
+                        <?php if ($alm->id <= 2) { ?>
                         <th>Usuario</th>
                         <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach($this->model->SalesList() as $r) { ?>
                     <tr>
-                        <td>Tiger</td>
-                        <td>Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-
-                        <?php if ($alm->id <=2) { ?>
-                        <td>Usuario</td>
+                        <td><?php echo $r->id ?></td>
+                        <td><?php echo $r->created_at ?></td>
+                        <td>$ <?php echo number_format($r->price) ?></td>
+                        <td><?php echo $r->obs ?></td>
+                        <?php if ($alm->id <= 2) { ?>
+                        <td><?php echo $r->user ?></td>
                         <?php } ?>
                     </tr>
+                    <?php } ?>
                 </tbody>
             </table>
 
@@ -65,7 +65,11 @@
 <script>
 $(document).ready(function() {
     $('table').DataTable({
-        "scrollX": true
+        "order": [],
+        "scrollX": true,
+        "lengthChange": false,
+        "paginate": false
+
     });
 });
 </script>

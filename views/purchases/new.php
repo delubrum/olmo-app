@@ -13,7 +13,7 @@
             <form method="post" action="?c=Init&a=PurchaseSave">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva Compra</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

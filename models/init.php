@@ -148,7 +148,87 @@ class Init {
             catch (Exception $e) {
             die($e->getMessage());
         }
-    } 
+    }
 
+    public function ProductSearch($description) {
+        try {
+        $stm = $this->pdo->prepare("SELECT * 
+        FROM products a
+        LEFT JOIN inventory b
+        ON a.id = b.product_id
+        WHERE description like ? 
+        AND b.qty > 0
+        ORDER BY id ASC");
+        $stm->execute(array("%$description%"));
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+        catch (Exception $e) {
+        die($e->getMessage());
+        }
+    }
+
+    public function ProductByCategory($id) {
+        try {
+        $stm = $this->pdo->prepare("SELECT * 
+        FROM products a
+        LEFT JOIN inventory b
+        ON a.id = b.product_id
+        WHERE category_id = ?
+        AND b.qty > 0
+        ORDER BY id ASC");
+        $stm->execute(array($id));
+        return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+        catch (Exception $e) {
+        die($e->getMessage());
+        }
+    }
+
+    public function SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id) {
+        try {
+            $sql = "INSERT INTO sales (price,obs,user_id) VALUES (?,?,?)";
+            $this->pdo->prepare($sql)->execute(array($total_price,$obs,$user_id));
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+
+        $last_id = $this->pdo->lastInsertId();
+
+        try {
+            $sql = "INSERT INTO sales_detail (sale_id,product_id,qty,price) VALUES";
+			foreach($product_id as $k => $r){
+				$sql.="('$last_id','$r','$qty[$k]','$price[$k]'),";
+			}
+			$sql=rtrim($sql,',');
+			$this->pdo->prepare($sql)->execute();
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+
+        foreach($product_id as $k => $r){
+            $inventory_qty = $qty[$k] - $this->InventoryGet($r)->qty;
+            $this->InventoryUpdate($inventory_qty,$r);
+        }
+          
+    }
+
+    public function SalesList() {
+        try {
+            $stm = $this->pdo->prepare("SELECT
+            a.id, a.created_at,a.price,a.obs,b.name as user
+            FROM sales a
+            LEFT JOIN users b
+            ON a.user_id = b.id
+            ORDER BY a.id DESC
+            ");
+            $stm->execute(array());
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
 
 }

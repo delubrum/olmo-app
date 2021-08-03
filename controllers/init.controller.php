@@ -114,4 +114,33 @@ class InitController{
     </script>";
   }
 
+  public function ProductSearch(){
+    if  (!empty($_POST["description"])) {
+    foreach($this->model->ProductSearch($_POST["description"]) as $r) {
+      $description = mb_convert_case($r->description, MB_CASE_TITLE, "UTF-8");
+      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description</button>";
+      }
+    }
+  }
+
+  public function ProductByCategory(){
+    if  (!empty($_POST["id"])) {
+    foreach($this->model->ProductByCategory($_POST["id"]) as $r) {
+      $description = mb_convert_case($r->description, MB_CASE_TITLE, "UTF-8");
+      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description</button>";
+      }
+    }
+  }
+
+  public function SaleSave(){
+    session_start();
+    $user_id = $_SESSION["id-OLMO"];
+    $product_id=$_REQUEST['product_id'];
+    $qty=$_REQUEST['qty'];
+    $obs=$_REQUEST['obs'];
+    $price=$_REQUEST['price'];
+    $total_price=array_sum($price);
+    $this->model->SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id);
+  }
+
 }
