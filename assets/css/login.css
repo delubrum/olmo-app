@@ -53,6 +53,7 @@ form input {
   color: #000;
   transition-duration: 0.25s;
   font-weight: 300;
+  border: 1px solid #9d8626;
 }
 
 form input:hover {
@@ -65,7 +66,7 @@ form input:focus {
   background-color: white;
   width: 300px;
   color: #000;
-  border: 2px solid #278dc1;
+  border: 2px solid #9d8626;
 }
 
 .send {

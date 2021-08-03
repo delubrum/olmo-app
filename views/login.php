@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="robots" content="noindex">
+    <script src="assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
 </head>
 
 <body>

@@ -33,7 +33,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" id="sale_save">
+            <form method="post" id="sale_save" autocomplete="off">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-5">
@@ -249,6 +249,7 @@ $('#sale_save').on('submit', function(e) {
             confirmButtonText: 'Si'
         }).then((result) => {
             if (result.isConfirmed) {
+                $("#loading").fadeIn("slow");
                 $.post("?c=Init&a=SaleSave", $("#sale_save").serialize(), function(data) {
                     location.reload();
                 });

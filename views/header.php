@@ -32,6 +32,9 @@ if ($id <> "" and $id == $alm->id){
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse text-sm layout-fixed">
+
+    <div id="loading"></div>
+
     <div class="wrapper">
 
         <!-- Navbar -->

@@ -52,10 +52,10 @@ class LoginController{
       if ($this->model->Login($user,$password)) {
         header('Location: ?c=Init&a=Index');
       } else {
-        echo 'error';
+        echo '<script type="text/javascript"> alert("Usuario o Contraseña Incorrecta");window.location="?c=Login&a=Index"</script>';
       }
     } else {
-      echo 'error';
+      echo '<script type="text/javascript"> alert("Ingrese una contraseña");window.location="?c=Login&a=Index"</script>';
     }
   }
 
