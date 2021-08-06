@@ -1,6 +1,6 @@
 <head>
     <title>Olmo</title>
-    <link rel="icon" sizes="192x192" href="assets/img/logo.png" />
+    <link rel="icon" sizes="192x192" href="assets/img/ico.png" />
     <link href="assets/css/login.css" rel="stylesheet" type="text/css" media="screen" />
     <script src="assets/plugins/jquery/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">

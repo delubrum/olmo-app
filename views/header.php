@@ -6,7 +6,7 @@ if ($id <> "" and $id == $alm->id){
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="icon" sizes="192x192" href="assets/img/logo.png">
+    <link rel="icon" sizes="192x192" href="assets/img/ico.png">
     <title>Olmo</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="assets/plugins/fontawesome-free/css/all.min.css">
