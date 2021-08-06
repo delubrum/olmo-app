@@ -11,12 +11,15 @@
         overflow-y: auto;
     }
 
-    #qty_price {
+    #qty_price,
+    #sell {
         margin-top: 10%;
     }
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
-        #qty_price {
+
+        #qty_price,
+        #sell {
             margin-top: 30%;
         }
     }
@@ -28,10 +31,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nueva Venta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h6 class="modal-title" id="exampleModalLabel">Nueva Venta</h6>
             </div>
             <form method="post" id="sale_save" autocomplete="off">
                 <div class="modal-body">
@@ -57,19 +57,14 @@
                                 </div>
                                 <div id="total" class="col-6 font-weight-bold text-right">$ 0</div>
 
-                                <div class="col-sm-12 mt-3">
-                                    <div class="form-group">
-                                        <label>Observaciones:</label>
-                                        <textarea class="form-control" name="obs"></textarea>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" data-toggle='modal' data-target='#sell'
+                        class="btn btn-primary">Registrar</button>
                 </div>
             </form>
         </div>
@@ -122,7 +117,68 @@
     </div>
 </div>
 
+<div class="modal fade" id="sell" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <form method="post" id="product_add">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 mt-3">
+                            <div class="form-group">
+                                <label>Observaciones:</label>
+                                <textarea class="form-control" id="obs"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="btn-group col-12">
+                            <button type="button" id="cash" class="btn btn-outline-primary active">Efectivo</button>
+                            <button type="button" id="qr" class="btn btn-outline-primary">QR</button>
+                        </div>
+
+                        <div class="mt-2" id="payment_info">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>* Pagado</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i
+                                                    class="nav-icon fas fa-dollar-sign"></i></span>
+                                        </div>
+                                        <input id="payment"
+                                            data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 0, 'digitsOptional': false, 'prefix': '$ ', 'placeholder': '0'"
+                                            class="form-control" id="price" placeholder="$ 0" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>* Cambio</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i
+                                                    class="nav-icon fas fa-dollar-sign"></i></span>
+                                        </div>
+                                        <input class="form-control text-right" id="returned" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="sale_save_send" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
+let type = '$';
+
 $(document).ready(function() {
     $(":input").inputmask();
 });
@@ -135,6 +191,30 @@ $(document).on('change', '#category', function() {
     }, function(data) {
         $("#products").html(data);
     });
+});
+
+$(document).on('click', '#cash', function() {
+    type = '$';
+    $('#cash').addClass('active');
+    $('#qr').removeClass('active');
+    $('#payment_info').show();
+});
+
+$(document).on('click', '#qr', function() {
+    type = 'QR';
+    $('#qr').addClass('active');
+    $('#cash').removeClass('active');
+    $('#payment_info').hide();
+    $('#returned').val(0);
+});
+
+
+$(document).on('input', '#payment', function() {
+    total = $('#total').html().replace(/\D/g, '');
+    payment = $(this).val().replace(/\D/g, '');
+    returned = payment - total;
+    $('#returned').val('$ ' + returned.toFixed(0).replace(
+        /(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"))
 });
 
 $(document).on('input', '#product_search', function() {
@@ -237,7 +317,9 @@ $('#product_add').on('submit', function(e) {
 });
 
 
-$('#sale_save').on('submit', function(e) {
+$('#sale_save_send').on('click', function(e) {
+    returned = $("#returned").val().replace(/\D/g, '');
+    obs = $("#obs").val();
     if (document.getElementById("sale_save").checkValidity()) {
         e.preventDefault();
         Swal.fire({
@@ -250,7 +332,22 @@ $('#sale_save').on('submit', function(e) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $("#loading").fadeIn("slow");
-                $.post("?c=Init&a=SaleSave", $("#sale_save").serialize(), function(data) {
+
+                var data = $("#sale_save").serializeArray();
+                data.push({
+                    name: 'returned',
+                    value: returned
+                });
+                data.push({
+                    name: 'obs',
+                    value: obs
+                });
+                data.push({
+                    name: 'type',
+                    value: type
+                });
+                console.log(data);
+                $.post("?c=Init&a=SaleSave", data, function(data) {
                     location.reload();
                 });
             }

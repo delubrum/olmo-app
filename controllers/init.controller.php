@@ -44,6 +44,44 @@ class InitController{
     </script>";
   }
 
+  public function CashboxClose(){
+    ini_set("session.cookie_lifetime","28800");
+    ini_set("session.gc_maxlifetime","28800");
+    session_start();
+    $id = $_SESSION["id-OLMO"];
+    $amount = preg_replace('/[^0-9]+/','',$_REQUEST['amount']);
+    $this->model->CashboxClose($id,$amount);
+    $initial_id=$this->model->GetCashboxLast('1')->id;
+    $final_id=$this->model->GetCashboxLast('2')->id;
+    $initial=$this->model->GetCashboxbyId($initial_id)->amount;
+    $final=$this->model->GetCashboxbyId($final_id)->amount;
+    $start=$this->model->GetCashboxbyId($initial_id)->created_at;
+    $end=$this->model->GetCashboxbyId($final_id)->created_at;
+    $cash=$this->model->GetSold($start,$end,'$')->total;
+    $qr=$this->model->GetSold($start,$end,'QR')->total;
+    $others_income=$this->model->GetOthers($start,$end,'IN')->total;
+    $others_outcome=$this->model->GetOthers($start,$end,'OUT')->total;
+    $diference = $final - ($cash+$others_income+$initial-$others_outcome);
+    if ($diference == 0) {
+      $diference = "<div style='color:green'><b>Diferencia:</b>  $$diference</div>";
+    } elseif ($diference > 0) {
+      $diference = "<div style='color:yellow'><b>Diferencia:</b> $$diference</div>";
+    } else {
+      $diference = "<div style='color:red'><b>Diferencia:</b> $$diference</div>";
+    }
+    echo "
+    $start - $end
+    <br><b>Caja Inicio:</b> $" . number_format($initial, 0, '.', ',') . 
+    "<br><b>Efectivo:</b> $" . number_format($cash, 0, '.', ',') .
+    "<br><b>Otros Ingresos: $</b>" . number_format($others_income, 0, '.', ',') . 
+    "<br><b>QR:</b> $" . number_format($qr, 0, '.', ',') .
+    "<br><b>Efectivo + Otros: $</b>" . number_format(($cash+$others_income), 0, '.', ',').
+    "<br><b>Egresos</b>: $" . number_format($others_outcome, 0, '.', ',') .
+    "<br><br><b>TOTAL CAJA: $" . number_format(($cash+$others_income+$initial-$others_outcome), 0, '.', ',') .
+    "<br>Caja Cierre: $</b>" . number_format($final, 0, '.', ',') .
+    $diference;
+  }
+
   public function Sales(){
     ini_set("session.cookie_lifetime","28800");
     ini_set("session.gc_maxlifetime","28800");
@@ -139,8 +177,36 @@ class InitController{
     $qty=$_REQUEST['qty'];
     $obs=$_REQUEST['obs'];
     $price=$_REQUEST['price'];
+    $returned=$_REQUEST['returned'];
+    $type=$_REQUEST['type'];
     $total_price=array_sum($price);
-    $this->model->SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id);
+    $this->model->SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id,$returned,$type);
+  }
+
+  public function Others(){
+    ini_set("session.cookie_lifetime","28800");
+    ini_set("session.gc_maxlifetime","28800");
+    session_start();
+    $id = $_SESSION["id-OLMO"];
+    $alm = $this->model->UserGet($id);
+    $url = $_REQUEST['a'];
+    $type = $_REQUEST['type'];
+    require_once 'views/header.php';
+    require_once 'views/others/index.php';
+    require_once 'views/others/new.php';
+
+  }
+
+  public function OthersSave(){
+    session_start();
+    $user_id = $_SESSION["id-OLMO"];
+    $obs=$_REQUEST['obs'];
+    $price=preg_replace('/[^0-9]+/', '', $_REQUEST['price']);
+    $type=$_REQUEST['type'];
+    $this->model->OthersSave($price,$obs,$user_id,$type);
+    echo "<script type='text/javascript'>
+    window.location='?c=Init&a=?c=Init&a=Others&type=$type'
+    </script>";
   }
 
   public function Inventory(){

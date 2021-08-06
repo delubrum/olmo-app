@@ -23,7 +23,9 @@ class Init {
 
     public function UserGet($id) {
         try {
-            $stm = $this->pdo->prepare("SELECT * FROM users WHERE id = ?");
+            $stm = $this->pdo->prepare("SELECT * 
+            FROM users 
+            WHERE id = ?");
             $stm->execute(array($id));
             return $stm->fetch(PDO::FETCH_OBJ);
         }
@@ -34,7 +36,10 @@ class Init {
 
     public function CashboxGet() {
         try {
-            $stm = $this->pdo->prepare("SELECT * from cashbox ORDER BY id DESC LIMIT 1 ");
+            $stm = $this->pdo->prepare("SELECT * 
+            FROM cashbox 
+            ORDER BY id DESC 
+            LIMIT 1 ");
             $stm->execute();
             return $stm->fetch(PDO::FETCH_OBJ);
         }
@@ -62,7 +67,9 @@ class Init {
 
     public function ProductsCategoriesList() {
         try {
-            $stm = $this->pdo->prepare("SELECT * FROM products_categories ORDER BY name ASC");
+            $stm = $this->pdo->prepare("SELECT * 
+            FROM products_categories 
+            ORDER BY name ASC");
             $stm->execute(array());
             return $stm->fetchAll(PDO::FETCH_OBJ);
         }
@@ -140,6 +147,16 @@ class Init {
         }
     }
 
+    public function OthersSave($price,$obs,$user_id,$type) {
+        try {
+            $sql = "INSERT INTO others (price,obs,user_id,type) VALUES (?,?,?,?)";
+            $this->pdo->prepare($sql)->execute(array($price,$obs,$user_id,$type));
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
     public function InventorySave($qty,$product_id) {
         try {
             $sql = "INSERT INTO inventory (qty,product_id) VALUES (?,?)";
@@ -184,10 +201,10 @@ class Init {
         }
     }
 
-    public function SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id) {
+    public function SaleSave($product_id,$qty,$total_price,$price,$obs,$user_id,$returned,$type) {
         try {
-            $sql = "INSERT INTO sales (price,obs,user_id) VALUES (?,?,?)";
-            $this->pdo->prepare($sql)->execute(array($total_price,$obs,$user_id));
+            $sql = "INSERT INTO sales (price,obs,user_id,returned,type) VALUES (?,?,?,?,?)";
+            $this->pdo->prepare($sql)->execute(array($total_price,$obs,$user_id,$returned,$type));
         }
             catch (Exception $e) {
             die($e->getMessage());
@@ -217,13 +234,30 @@ class Init {
     public function SalesList() {
         try {
             $stm = $this->pdo->prepare("SELECT
-            a.id, a.created_at,a.price,a.obs,b.name as user
+            a.id, a.created_at,a.price,a.returned,a.type,a.obs,a.user_id,b.name as user
             FROM sales a
             LEFT JOIN users b
             ON a.user_id = b.id
             ORDER BY a.id DESC
             ");
             $stm->execute(array());
+            return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function OthersList($type) {
+        try {
+            $stm = $this->pdo->prepare("SELECT *
+            FROM others a
+            LEFT JOIN users b
+            ON a.user_id = b.id
+            WHERE type = ?
+            ORDER BY a.id DESC
+            ");
+            $stm->execute(array($type));
             return $stm->fetchAll(PDO::FETCH_OBJ);
         }
             catch (Exception $e) {
@@ -241,6 +275,73 @@ class Init {
             ");
             $stm->execute(array());
             return $stm->fetchAll(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    
+    public function CashboxClose($id,$amount) {
+        try {
+            $stm = $this->pdo->prepare("INSERT INTO cashbox (type,user,amount) VALUES ('2',?,?)");
+            $stm->execute(array($id,$amount));
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function GetCashboxLast($id){
+        try {
+            $stm = $this->pdo->prepare("SELECT max(id) as id 
+            FROM cashbox 
+            WHERE type = ?");
+            $stm->execute(array($id));
+            return $stm->fetch(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function GetCashboxbyId($id) {
+        try {
+            $stm = $this->pdo->prepare("SELECT * 
+            FROM cashbox 
+            WHERE id = ?");
+            $stm->execute(array($id));
+            return $stm->fetch(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function GetSold($initial,$final,$type){
+        try {
+            $stm = $this->pdo->prepare("SELECT sum(price) as total
+            FROM sales 
+            WHERE created_at >= ?
+            AND created_at <= ? 
+            AND type = ?");
+            $stm->execute(array($initial,$final,$type));
+            return $stm->fetch(PDO::FETCH_OBJ);
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function GetOthers($initial,$final,$type) {
+        try {
+            $stm = $this->pdo->prepare("SELECT sum(price) as total 
+            FROM others 
+            WHERE created_at >= ? 
+            AND created_at <= ? 
+            AND type = ?");
+            $stm->execute(array($initial,$final,$type));
+            return $stm->fetch(PDO::FETCH_OBJ);
         }
             catch (Exception $e) {
             die($e->getMessage());

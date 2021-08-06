@@ -79,43 +79,89 @@ if ($id <> "" and $id == $alm->id){
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="?c=Init&a=Sales" class="nav-link <?php $url == 'Sales' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Sales" class="nav-link <?php echo ($url == 'Sales') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>
                                     Ventas
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="?c=Init&a=Products" class="nav-link <?php $url == 'Products' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Products"
+                                class="nav-link <?php echo ($url == 'Products') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-inbox"></i>
                                 <p>
                                     Productos
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="?c=Init&a=Purchases" class="nav-link <?php $url == 'Purchases' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Purchases"
+                                class="nav-link <?php echo ($url == 'Purchases') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-cart-plus"></i>
                                 <p>
                                     Compras
                                 </p>
                             </a>
                         </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link <?php echo ($url == 'Others') ? 'active' : '' ?>">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Otros
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="?c=Init&a=Others&type=IN"
+                                        class="nav-link <?php echo ($_REQUEST['type'] == 'IN') ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ingresos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="?c=Init&a=Others&type=OUT"
+                                        class="nav-link <?php echo ($_REQUEST['type'] == 'OUT') ? 'active' : '' ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Egresos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
-                            <a href="?c=Init&a=Inventory" class="nav-link <?php $url == 'Inventory' ? 'active' : '' ?>">
+                            <a href="?c=Init&a=Inventory"
+                                class="nav-link <?php echo ($url == 'Inventory') ? 'active' : '' ?>">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
                                     Inventario
                                 </p>
                             </a>
                         </li>
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#cashbox_close">
+                                <i class="nav-icon fas fa-times"></i>
+                                <p>
+                                    Cerrar Caja
+                                </p>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>
+
+        <?php require_once 'views/cashbox/close.php'; ?>
+
         <!-- Content Wrapper. Contains page content -->
 
         <div class="content-wrapper">
