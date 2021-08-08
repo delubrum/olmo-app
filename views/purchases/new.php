@@ -27,7 +27,7 @@
                                     <select class="form-control select2" style="width:100%" name="product_id" required>
                                         <option value=''></option>
                                         <?php foreach($this->model->ProductsList() as $r) { ?>
-                                        <option value='<?php echo $r->id ?>'><?php echo $r->description ?>
+                                        <option value='<?php echo $r->id ?>'><?php echo $r->description ?> ($<?php echo $r->price/1000 ?> K)
                                         </option>
                                         <?php } ?>
 

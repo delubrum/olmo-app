@@ -108,7 +108,7 @@ class InitController{
 
   public function ProductSave(){
     $category_id=$_REQUEST['category_id'];
-    $description=$_REQUEST['description'];
+    $description=trim($_REQUEST['description']);
     $price=preg_replace('/[^0-9]+/', '', $_REQUEST['price']);
     $this->model->ProductSave($category_id,$description,$price);
     echo "<script type='text/javascript'>
@@ -120,6 +120,11 @@ class InitController{
     $id=$_REQUEST['id'];
     $val=$_REQUEST['val'];
     $this->model->ProductActive($val,$id);
+  }
+
+  public function ProductDelete(){
+    $id=$_REQUEST['id'];
+    $this->model->ProductDelete($id);
   }
 
   public function Purchases(){
@@ -156,7 +161,8 @@ class InitController{
     if  (!empty($_POST["description"])) {
     foreach($this->model->ProductSearch($_POST["description"]) as $r) {
       $description = mb_convert_case($r->description, MB_CASE_TITLE, "UTF-8");
-      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description</button>";
+      $price = $r->price / 1000;
+      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description ($$price K)</button>";
       }
     }
   }
@@ -165,7 +171,8 @@ class InitController{
     if  (!empty($_POST["id"])) {
     foreach($this->model->ProductByCategory($_POST["id"]) as $r) {
       $description = mb_convert_case($r->description, MB_CASE_TITLE, "UTF-8");
-      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description</button>";
+      $price = $r->price / 1000;
+      echo "<button id='product' data-id='$r->id' data-price='$r->price' type='button' class='btn btn-block bg-gradient-info' data-toggle='modal' data-target='#qty_price'>$description ($$price K)</button>";
       }
     }
   }

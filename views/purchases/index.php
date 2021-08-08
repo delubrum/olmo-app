@@ -25,6 +25,8 @@
 
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
+
+                <h3>TOTAL: <span class="text-primary" id="total">$ 0</span></h3>
                     <tr>
                         <th>Fecha</th>
                         <th>Producto</th>
@@ -37,7 +39,7 @@
                     <tr>
                         <td><?php echo $r->created_at ?></td>
                         <td><?php echo $r->description ?></td>
-                        <td>$ <?php echo number_format($r->price) ?></td>
+                        <td class="price">$ <?php echo number_format($r->price) ?></td>
                         <td><?php echo $r->obs ?></td>
                     </tr>
                     <?php } ?>
@@ -64,6 +66,29 @@ $(document).ready(function() {
         "lengthChange": false,
         "paginate": false
 
+    });
+
+    $(document).ready(function(){
+
+    var total=0;
+    $(".price:visible").each(function(){
+        total+=parseInt($(this).html().replace(/\D/g, ''));
+    });
+
+    $("#total").html('$ ' + total.toFixed(0).replace(
+                /(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
+    });
+
+
+    $(document).on('keydown','#demo :input', function() {
+
+    var total=0;
+    $(".price:visible").each(function(){
+        total+=parseInt($(this).html().replace(/\D/g, ''));
+    });
+
+    $("#total").html('$ ' + total.toFixed(0).replace(
+                /(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,"));
     });
 });
 </script>

@@ -27,7 +27,7 @@
                                     <select class="form-control" name="category_id" required>
                                         <option value=''></option>
                                         <?php foreach($this->model->ProductsCategoriesList() as $r) { ?>
-                                        <option value='<?php echo $r->category_id ?>'><?php echo $r->name ?>
+                                        <option value='<?php echo $r->id ?>'><?php echo $r->name ?>
                                         </option>
                                         <?php } ?>
 
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>* Precio</label>
+                                <label>* Precio de Venta</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i

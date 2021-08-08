@@ -97,6 +97,16 @@ class Init {
             die($e->getMessage());
         }
     }
+    
+    public function ProductDelete($id) {
+        try {
+            $sql = "DELETE FROM products WHERE id = ?";
+            $this->pdo->prepare($sql)->execute(array($id));
+        }
+            catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
 
     public function PurchasesList() {
         try {
