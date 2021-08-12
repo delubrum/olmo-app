@@ -51,11 +51,11 @@ class Init {
     public function ProductsList() {
         try {
             $stm = $this->pdo->prepare("SELECT
-            a.id,b.name,a.description,a.price,a.active 
+            a.id,b.name,a.description,a.price,a.active
             FROM products a
             LEFT JOIN products_categories b
             ON a.category_id = b.id
-            ORDER BY a.id DESC
+            ORDER BY b.id,a.description DESC
             ");
             $stm->execute(array());
             return $stm->fetchAll(PDO::FETCH_OBJ);
@@ -110,7 +110,8 @@ class Init {
 
     public function PurchasesList() {
         try {
-            $stm = $this->pdo->prepare("SELECT * 
+            $stm = $this->pdo->prepare("SELECT
+            a.id, a.price, a.qty, a.created_at,b.description,a.obs, c.name
             FROM purchases a
             LEFT JOIN products b
             ON a.product_id = b.id
@@ -281,7 +282,9 @@ class Init {
             FROM inventory a
             LEFT JOIN products b
             ON a.product_id = b.id
-            ORDER BY b.description ASC
+            LEFT JOIN products_categories c
+            ON b.category_id = c.id
+            ORDER BY c.id,b.description ASC
             ");
             $stm->execute(array());
             return $stm->fetchAll(PDO::FETCH_OBJ);

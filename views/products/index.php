@@ -26,19 +26,20 @@
             <table id="example" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
+                        <th>Id</th>
+                        <th>Categoria</th>
                         <th>Descripción</th>
                         <th>Precio de Venta</th>
-                        <th>Categoria</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($this->model->ProductsList() as $r) { ?>
                     <tr>
-
+                        <td><?php echo $r->id ?></td>
+                        <td><?php echo $r->name ?></td>
                         <td><?php echo  mb_convert_case($r->description, MB_CASE_TITLE, "UTF-8"); ?></td>
                         <td>$ <?php echo number_format($r->price) ?></td>
-                        <td><?php echo $r->name ?></td>
                         <td class="btn-group"><button class="btn btn-danger delete m-2" data-id="<?php echo $r->id ?>">
                   <i class="far fa-trash-alt"></i> 
                     </button>

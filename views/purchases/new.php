@@ -27,7 +27,7 @@
                                     <select class="form-control select2" style="width:100%" name="product_id" required>
                                         <option value=''></option>
                                         <?php foreach($this->model->ProductsList() as $r) { ?>
-                                        <option value='<?php echo $r->id ?>'><?php echo $r->description ?> ($<?php echo $r->price/1000 ?> K)
+                                        <option value='<?php echo $r->id ?>'><?php echo $r->description ?> [<?php echo $r->name ?>] ($<?php echo $r->price/1000 ?> K)
                                         </option>
                                         <?php } ?>
 
@@ -37,12 +37,12 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>* Descripción</label>
+                                <label>Observaciones</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="nav-icon fas fa-archive"></i></span>
                                     </div>
-                                    <input class="form-control" name="obs" required>
+                                    <input class="form-control" name="obs">
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>* Precio</label>
+                                <label>* Precio de Compra (ud)</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i

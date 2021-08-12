@@ -28,18 +28,26 @@
 
                 <h3>TOTAL: <span class="text-primary" id="total">$ 0</span></h3>
                     <tr>
+                        <th>Id</th>
                         <th>Fecha</th>
                         <th>Producto</th>
-                        <th>Precio</th>
+                        <th>Categoria</th>
+                        <th>Cantidad</th>
+                        <th>Precio de Compra (ud)</th>
+                        <th>Total Pagado</th>
                         <th>Observaciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($this->model->PurchasesList() as $r) { ?>
                     <tr>
+                        <td><?php echo $r->id ?></td>
                         <td><?php echo $r->created_at ?></td>
                         <td><?php echo $r->description ?></td>
-                        <td class="price">$ <?php echo number_format($r->price) ?></td>
+                        <td><?php echo $r->name ?></td>
+                        <td><?php echo $r->qty ?></td>
+                        <td>$ <?php echo number_format($r->price) ?></td>
+                        <td class="price">$ <?php echo number_format($r->price*$r->qty) ?></td>
                         <td><?php echo $r->obs ?></td>
                     </tr>
                     <?php } ?>

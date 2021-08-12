@@ -24,6 +24,7 @@
                 <thead>
                     <tr>
                         <th>Producto</th>
+                        <th>Categoria</th>
                         <th>Cantidad</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                     <?php foreach($this->model->InventoryList() as $r) { ?>
                     <tr>
                         <td><?php echo $r->description ?></td>
+                        <td><?php echo $r->name ?></td>
                         <td><?php echo $r->qty ?></td>
                     </tr>
                     <?php } ?>
